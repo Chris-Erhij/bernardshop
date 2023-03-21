@@ -3,7 +3,7 @@ from django.db.models import (
     Model, CharField, SlugField, ForeignKey, ImageField, TextField, DecimalField, BooleanField,
     DateTimeField,
     )
-
+from django.urls import reverse
 
 class Category(Model):
     name: CharField = models.CharField(max_length=200)
@@ -21,6 +21,9 @@ class Category(Model):
     def __str__(self) -> str | CharField:
         return self.name
     
+    def get_absolute_url(self) -> reverse:
+        return reverse('eshop:product_list_by_category', args=(self.slug,))
+
 
 class Product(Model):
     category: ForeignKey = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
@@ -43,3 +46,7 @@ class Product(Model):
 
     def __str__(self) -> str | CharField:
         return self.name
+
+    def get_absolute_url(self) -> reverse:
+        return reverse('eshop:product_detail', args=(self.id, self.slug,))
+    
