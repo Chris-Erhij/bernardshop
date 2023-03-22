@@ -123,7 +123,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Loading images using the Django developement server
+# Loading user uploaded images from a base directory using the Django developement server
+# Note: possible because, DEBUG = TRUE
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
