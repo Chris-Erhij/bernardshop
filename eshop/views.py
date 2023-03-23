@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
 from django.http import HttpRequest, HttpResponse
+from cart.forms import CartAddProductForm
 
 
 def product_list(request: HttpRequest, category_slug=None) -> HttpResponse:
@@ -20,4 +21,6 @@ def product_list(request: HttpRequest, category_slug=None) -> HttpResponse:
 
 def product_detail(request: HttpRequest, id: str, slug: str) -> HttpResponse:
     product: Product = get_object_or_404(Product, id=id, slug=slug, available=True)
-    return render(request, 'eshop/product/detail.html', {'product': product})
+    cart_product_form = CartAddProductForm()
+    return render(request, 'eshop/product/detail.html', {'product': product, 'cart_product_form': cart_product_form})
+
