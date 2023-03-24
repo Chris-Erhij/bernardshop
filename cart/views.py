@@ -30,33 +30,6 @@ def remove_from_cart_view(request: HttpRequest, product_id: str) -> (HttpRespons
 from django.shortcuts import render
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@decorator.http.require_POST
 def cart_detail_view(request: HttpRequest, product_id: str) -> HttpResponse:
     cart = Cart(request)
     context: dict = {'cart': cart}
@@ -65,4 +38,3 @@ def cart_detail_view(request: HttpRequest, product_id: str) -> HttpResponse:
             'quantity': item['quantity'],
             'override': True})
     return render(request, 'cart/detail.html', context)
-
