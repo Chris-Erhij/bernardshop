@@ -1,5 +1,33 @@
 @import url(//fonts.googleapis.com/css?family=Ubuntu);
 
+/* Header base style */
+.topnav {
+    background-color:#5993bb;
+    overflow: hidden
+}
+
+/* Header button style */
+.topnav a {
+    float: right;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Hover color for header buttons */
+.topnav a:hover {
+    background-color: #ddd;
+    color: yellowgreen
+}
+
+/* Active button style */
+.topnav a.active {
+    background-color: #04aa6d;
+    color: white;
+}
+
 body {
     margin:0;
     padding:0;
@@ -16,7 +44,7 @@ a {
 }
 
 a:hover {
-    color:#edf11c;
+    color:yellowgreen;
 }
 
 a.button, input[type="submit"] {
@@ -327,4 +355,17 @@ form div.field {
     background:#efefef;
     color:#666;
     border-radius:4px;
+}
+
+/* Base footer style */
+.footer {
+    box-sizing: border-box;
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #5993bb;
+    color: white;
+    text-align: center;
 }

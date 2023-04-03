@@ -8,9 +8,15 @@
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
     </head>
     <body>
-        <div id="header">
-            <a href="/" class="logo">The gem gallery</a>
+        <div class="topnav">
+            <a class="active" href="/"> HOME </a>
+            <a href="#contact us"> Contact </a>
+            <a href="about us"> About </a>
+            <div id="header">
+            <a href="/" class="logo">Benj's gallery</a>
+            </div>
         </div>
+        <hr>
         <div id="subheader">
             <div class="cart">
                 {% with total_items=cart|length %}
@@ -18,7 +24,7 @@
                         Your cart: <a href="{% url 'cart:cart_detail' %}"> {{ total_items }} item{{ total_items|pluralize }}
                         ${{ cart.get_total_price }} 
                         </a>
-                    {% else %}
+                    {% elif not order %}
                         Your cart is empty
                     {% endif %}
                 {% endwith %}
@@ -27,6 +33,11 @@
         <div id="content">
             {% block content %}
             {% endblock %}
+        </div>
+        <div class="footer">
+            <footer>
+                <p> Copyright @2023 Benj's gallery </p>
+            </footer>
         </div>
     </body>
 </html>

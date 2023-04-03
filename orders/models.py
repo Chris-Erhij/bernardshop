@@ -3,15 +3,16 @@ from django.db.models import (
     Model, CharField, EmailField, BooleanField, DecimalField, DateTimeField, 
     PositiveIntegerField, ForeignKey, Index,
 )
-from .models import Product
+from eshop.models import Product
+from typing import Type
 
 
 class Order(Model):
-    first_name: CharField = models.CharField(name="First name", max_length=50, help_text="Your last name here")
-    last_name: CharField = models.CharField(name="Last name", max_length=50, help_text="Your first name here", )
-    email: EmailField = models.EmailField(help_text="Enter your email here")
+    first_name: CharField = models.CharField(max_length=50,)
+    last_name: CharField = models.CharField(max_length=50,)
+    email: EmailField = models.EmailField()
     address: CharField = models.CharField(max_length=250)
-    postal_code: CharField = models.CharField(name="Postal code", max_length=50)
+    postal_code: CharField = models.CharField(max_length=50)
     city: CharField = models.CharField(max_length=100)
     created: DateTimeField = models.DateTimeField(auto_now_add=True)
     updated: DateTimeField = models.DateTimeField(auto_now=True)
@@ -19,8 +20,8 @@ class Order(Model):
 
     class Meta:
         ordering: list([str]) = ['-created']
-        indexes: list([Index[str]]) = [
-            models.Index(fields=['-created',])
+        indexes: list([Type]) = [
+            Index(fields=['-created',])
         ]
 
     def __str__(self) -> str:

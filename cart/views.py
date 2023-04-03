@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product
+from eshop.models import Product
 from .forms import CartAddProductForm
 from .cart import Cart
 from django.views.decorators.http import require_POST
@@ -12,14 +12,14 @@ from django.urls import reverse
 
 @require_POST
 def cart_add(request: HttpRequest, product_id: str) -> (HttpResponseRedirect | HttpResponsePermanentRedirect):
-    cart = Cart(request)  # Upon request create an empty cart instance.
+    cart = Cart(request)  # Upon 'add to cart' request, create cart instance with product in it.
     product: Product = get_object_or_404(Product, id=product_id)
     form: (forms.Form | CartAddProductForm) = CartAddProductForm(request.POST)
     
     if form.is_valid():
         cd = form.cleaned_data
         cart.add(product=product, quantity=cd['quantity'], override_quantity=cd['override'])
-    return HttpResponseRedirect(reverse('cart:cart_detail'))
+    return redirect('cart:cart_detail')
 
 
 @require_POST
@@ -28,7 +28,7 @@ def cart_remove(request: HttpRequest, product_id: str) -> (HttpResponseRedirect 
     product: Product = get_object_or_404(Product, id=product_id)
     if product in cart:
         cart.remove(product=product)
-    return HttpResponseRedirect(reverse('cart:cart_detail'))
+    return redirect('cart:cart_detail')
 
 
 def cart_detail(request: HttpRequest) -> HttpResponse:
