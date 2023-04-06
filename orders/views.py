@@ -4,6 +4,7 @@ from .forms import OrderCreateForm
 from cart.cart import Cart
 from django.http import HttpRequest, HttpResponse
 from django import forms
+from .tasks import order_created
 
 
 def order_create(request: HttpRequest,) -> HttpResponse:
@@ -19,6 +20,7 @@ def order_create(request: HttpRequest,) -> HttpResponse:
                                          quantity=item['quantity'],
                                          )
             cart.clear()
+            order_created.delay(order.id)  # Asynchronous task.
         return render(request, "orders/order/created.html", {'order': order})
     else:
         form = OrderCreateForm()

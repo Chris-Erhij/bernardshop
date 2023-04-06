@@ -22,7 +22,7 @@ def product_list(request: HttpRequest, category_slug=None) -> HttpResponse:
     )
 
 
-def product_detail(request: HttpRequest, id: str, slug: str) -> HttpResponse:
+def product_detail(request: HttpRequest, id: int, slug) -> HttpResponse:
     product: Product = get_object_or_404(Product, id=id, slug=slug, available=True)
     cart_product_form = CartAddProductForm()
     return render(request, 'eshop/product/detail.html', {'product': product, 'cart_product_form': cart_product_form})
