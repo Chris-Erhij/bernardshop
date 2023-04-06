@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'eshop.apps.EshopConfig',
     'orders.apps.OrdersConfig',
+    'payment.apps.PaymentConfig',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +60,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
-        'APP_DIRS': True,
+        'APP_DIRS': True,  # Template namespacing
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -138,3 +140,7 @@ CART_SESSION_ID = 'cart'
 
 # Renders mail message to console.
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Paystack API keys from (os).
+PAYSTACK_PUBLIC_KEY = os.environ.get('PS_PUBLIC')
+PAYSTACK_SECRET_KEY = os.environ.get('PS_SECRET')
