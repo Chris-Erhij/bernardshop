@@ -3,7 +3,7 @@
 /* Header base style */
 .topnav {
     background-color:#5993bb;
-    overflow: hidden
+    overflow: hidden;
 }
 
 /* Header button style */
@@ -359,11 +359,10 @@ form div.field {
 
 /* Base footer style */
 .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+    position: absolute;
+    height: 55px;
     background-color: #5993bb;
     color: white;
     text-align: center;
+    line-height: 55px;
 }

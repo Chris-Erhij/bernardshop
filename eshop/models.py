@@ -29,7 +29,7 @@ class Product(Model):
     category: ForeignKey = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     name: CharField = models.CharField(max_length=200)
     slug: SlugField = models.SlugField(max_length=200)
-    Image: ImageField = models.ImageField(upload_to="products/%y/%m/%d", blank=True)
+    image: ImageField = models.ImageField(upload_to="products/%y/%m/%d", blank=True)
     description: TextField = models.TextField(blank=True)
     price: DecimalField = models.DecimalField(max_digits=10, decimal_places=2)
     available: BooleanField = models.BooleanField(default=True)

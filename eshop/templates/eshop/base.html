@@ -6,6 +6,12 @@
         <meta charset="utf-8"/>
         <title>{% block title %}Bernards shop{% endblock %}</title>
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <script>
+            setTimeout(wakeUpUser, 100000);
+            function wakeUpUser() {
+                alert("What are you waiting for, go ahead place your order now");
+            }
+        </script>
     </head>
     <body>
         <div class="topnav">
@@ -21,7 +27,7 @@
             <div class="cart">
                 {% with total_items=cart|length %}
                     {% if total_items > 0 %}
-                        Your cart: <a href="{% url 'cart:cart_detail' %}"> {{ total_items }} item{{ total_items|pluralize }}
+                        Your cart: <a href="{% url 'cart:cart-detail' %}"> {{ total_items }} item{{ total_items|pluralize }}
                         ₵{{ cart.get_total_price }} 
                         </a>
                     {% elif not order %}
@@ -34,10 +40,8 @@
             {% block content %}
             {% endblock %}
         </div>
-        <div class="footer">
-            <footer>
-                <p> Copyright @2023 Benj's gallery </p>
-            </footer>
-        </div>
+        <footer class="footer">
+            <div><p> Copyright @2023 Benj's gallery </p></div>
+        </footer>
     </body>
 </html>

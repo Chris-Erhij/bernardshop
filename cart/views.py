@@ -7,28 +7,27 @@ from django.http import (
     HttpRequest, HttpResponseRedirect, HttpResponse, HttpResponsePermanentRedirect
 )
 from django import forms
-from django.urls import reverse
 
 
 @require_POST
-def cart_add(request: HttpRequest, product_id: int) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-    cart = Cart(request)  # Upon 'add to cart' request, create cart instance with product in it.
+def cart_add(request: HttpRequest, product_id: int) -> HttpResponseRedirect:
+    cart = Cart(request)
     product: Product = get_object_or_404(Product, id=product_id)
     form: (forms.Form | CartAddProductForm) = CartAddProductForm(request.POST)
     
     if form.is_valid():
         cd = form.cleaned_data
         cart.add(product=product, quantity=cd['quantity'], override_quantity=cd['override'])
-    return redirect(reverse('cart:cart_detail'))
+    return redirect('cart:cart-detail')
 
 
 @require_POST
-def cart_remove(request: HttpRequest, product_id: int) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
+def cart_remove(request: HttpRequest, product_id: int) -> HttpResponseRedirect:
     cart = Cart(request)
     product: Product = get_object_or_404(Product, id=product_id)
     if product in cart:
         cart.remove(product=product)
-    return redirect(reverse('cart:cart_detail'))
+    return redirect('cart:cart-detail')
 
 
 def cart_detail(request: HttpRequest) -> HttpResponse:

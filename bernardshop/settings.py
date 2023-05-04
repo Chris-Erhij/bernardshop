@@ -141,6 +141,7 @@ CART_SESSION_ID = 'cart'
 # Renders mail message to console.
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Paystack API keys from (os).
-PAYSTACK_PUBLIC_KEY = os.environ.get('PS_PUBLIC')
-PAYSTACK_SECRET_KEY = os.environ.get('PS_SECRET')
+# Paystack API keys from (os) & end-point.
+PAYSTACK_PUBLIC_KEY: str = os.environ.get('PS_PUBLIC')
+PAYSTACK_SECRET_KEY: str = os.environ.get('PS_SECRET')
+PAYSTACK_ENDPOINT: str = "https://api.paystack.co/transaction/initialize"

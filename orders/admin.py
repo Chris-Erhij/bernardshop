@@ -18,4 +18,4 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter: list([str, ...]) = [
         'paid', 'created', 'updated'
     ]
-    inlines: list([Type]) = [OrderItemInline]
+    inlines: list([Type]) = [OrderItemInline,]
