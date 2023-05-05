@@ -13,7 +13,6 @@ def product_list(request: HttpRequest, category_slug=None) -> HttpResponse:
         category: Category = get_object_or_404(Category, slug=category_slug)
         products: Product = products.filter(category=category)
     return render(
-        
         request, 'eshop/product/list.html', {
         'category': category,
         'categories': categories,
