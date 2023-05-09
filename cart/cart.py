@@ -18,7 +18,7 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self, product: Product, quantity: int = 0, override_quantity: bool = False) -> None:
+    def add(self, product: Product, quantity: int = 1, override_quantity: bool = False) -> None:
         """
             Add a product to the cart or update it's quantity
         """ 

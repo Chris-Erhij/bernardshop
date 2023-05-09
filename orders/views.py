@@ -6,6 +6,7 @@ from cart.cart import Cart
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django import forms
 from .tasks import order_created
+import pdb as debug
 
 
 def order_create(request: HttpRequest,) -> HttpResponse | HttpResponseRedirect:
@@ -14,6 +15,7 @@ def order_create(request: HttpRequest,) -> HttpResponse | HttpResponseRedirect:
         form: (forms.ModelForm | OrderCreateForm) = OrderCreateForm(request.POST)
         if form.is_valid():
             order = form.save()
+            debug.set_trace()
             for item in cart:
                 OrderItem.objects.create(order=order,
                                          product=item['product'],

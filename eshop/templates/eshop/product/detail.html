@@ -15,12 +15,15 @@
             {{ product.category }}
             </a>
         </h2>
-        <p class="price">{{ product.price }}</p>
+        <p class="price">₵{{ product.price }}</p>
         <form action="{% url 'cart:cart-add' product.id %}" method="post">
             {{ cart_product_form }}
             {% csrf_token %}
             <input type="submit" value="Add to cart">
         </form>
+        <p>
+            <a href="{% url 'orders:order_create' %}" class="button"> buy now </a>
+        </p>>
         {{ product.description|linebreaks }}
     </div>
 {% endblock %}
