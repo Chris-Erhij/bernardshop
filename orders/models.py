@@ -28,15 +28,15 @@ class Order(Model):
         return F"Order {self.id}"
     
     def get_total_cost(self) -> int:
-        return sum(item.get_cost for item in self.items.all())
+        return sum(item.price * item.quantity for item in OrderItem.objects.all())
     
 
 class OrderItem(Model):
     order: ForeignKey = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product: ForeignKey = models.ForeignKey(Product, related_name='order_items', on_delete=models.CASCADE)
     price: DecimalField = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity: PositiveIntegerField(default=1)
-
+    quantity: PositiveIntegerField = models.PositiveIntegerField(default=1)
+    
     def __str__(self) -> str:
         return str(self.id)
     

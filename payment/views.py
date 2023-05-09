@@ -25,7 +25,7 @@ def payment_process(request: HttpRequest) -> HttpResponse | HttpResponseRedirect
         cancel_url = request.build_absolute_uri(reverse('payment:pay_canceled'))
 
         # Additional metadata paystack endpoint don't accept naturally.
-        metadata: dict = json.dump({'client_reference_id': order.id, 'cancel_url': cancel_url})
+        metadata: dict = json.dumps({'client_reference_id': order.id, 'cancel_url': cancel_url})
 
         # Paystack checkout session data.
         session_data: dict = {
@@ -58,8 +58,8 @@ def payment_process(request: HttpRequest) -> HttpResponse | HttpResponseRedirect
                 return redirect(end_point_url, code=303)
             except Exception:
                 raise("Authorization error!")
-        return render(request, 'orders/order/created.html', locals())
-    return render(request, 'orders/order/created.html', locals())
+        return render(request, 'payment/pay_process.html', locals())
+    return render(request, 'payment/pay_process.html', locals())
 
 
 def payment_completed(request: HttpRequest) -> HttpResponse:
