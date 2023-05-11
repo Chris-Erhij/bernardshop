@@ -142,7 +142,7 @@ table.cart img {
 }
 
 tbody td.num {
-    text-align:right;
+    text-align: left;
 }
 
 td input[type="submit"] {
@@ -404,4 +404,6 @@ form div.field {
     line-height: inherit;
     text-align: center;
     font-family: math;
+    margin-top: 30px;
 }
+
