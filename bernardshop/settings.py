@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cart.apps.CartConfig',
+    'coupon.apps.CouponConfig',
     'eshop.apps.EshopConfig',
     'orders.apps.OrdersConfig',
     'payment.apps.PaymentConfig',
