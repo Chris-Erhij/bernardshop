@@ -146,3 +146,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 PAYSTACK_PUBLIC_KEY: str = os.environ.get('PS_PUBLIC')
 PAYSTACK_SECRET_KEY: str = os.environ.get('PS_SECRET')
 PAYSTACK_ENDPOINT: str = "https://api.paystack.co/transaction/initialize"
+PAYSTACK_SK: str = "sk_test_e3efbe5c953602af5b7e544058d1d4761201a98d"
+PAYSTACK_PK: str = "pk_test_33c589c93d426ead744a42658a41afdfb7183fee"

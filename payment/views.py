@@ -24,6 +24,8 @@ def payment_process(request: HttpRequest) -> HttpResponse | HttpResponseRedirect
         success_url = request.build_absolute_uri(reverse('payment:pay_completed'))
         cancel_url = request.build_absolute_uri(reverse('payment:pay_canceled'))
 
+        
+
         # Additional metadata paystack endpoint don't accept naturally.
         metadata: dict = json.dumps({'client_reference_id': order.id, 'cancel_url': cancel_url})
 
@@ -46,7 +48,7 @@ def payment_process(request: HttpRequest) -> HttpResponse | HttpResponseRedirect
                     },
                 'quantity': item.quantity,
             })
-        headers: dict([str, str]) = {'authorization': F"Bearer {api_key}"}
+        headers: dict([str, str]) = {'Authorization': F"Bearer {api_key}"}
 
         # Api request to paystack server.
         r = requests.post(end_point, headers=headers, data=session_data)

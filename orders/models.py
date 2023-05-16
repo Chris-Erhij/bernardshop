@@ -5,6 +5,8 @@ from django.db.models import (
 )
 from eshop.models import Product
 from typing import Type
+import secrets
+from .paystack import Paystack
 
 
 class Order(Model):
@@ -16,6 +18,7 @@ class Order(Model):
     city: CharField = models.CharField(max_length=100)
     created: DateTimeField = models.DateTimeField(auto_now_add=True)
     updated: DateTimeField = models.DateTimeField(auto_now=True)
+    ref: CharField = models.CharField(max_length=200)
     paid: BooleanField = models.BooleanField(default=False)
 
     class Meta:
@@ -28,7 +31,29 @@ class Order(Model):
         return F"Order {self.id}"
     
     def get_total_cost(self) -> int:
-        return sum(item.get_cost() for item in self.items.all())
+        return sum(item.get_cost() for item in self.items.all()) * 100
+    
+    def verify_payment(self):
+        paystack = Paystack()
+        status, result = paystack.verify_payment(self.ref, self.get_total_cost())
+
+        if status and result['amount'] / 100 == self.get_total_cost():
+            self.paid = True
+            self.save()
+        if self.paid:
+            return True
+        return False
+
+    def save(self, *args, **kwargs):
+        """Saves order reference IDs
+        """
+        while not self.ref:
+            ref = secrets.token_urlsafe(50)
+            obj_with_sim_ref = Order.objects.filter(ref=ref)
+            
+            if not obj_with_sim_ref:
+                self.ref = ref
+        super().save(*args, **kwargs)
     
 
 class OrderItem(Model):
