@@ -4,12 +4,12 @@ from eshop.models import Product
 from django. http import HttpRequest
 from typing import Any, Generator
 import typing as ty
+from coupon.models import Coupon
 
 
 class Cart(object):
     def __init__(self, request: HttpRequest) -> None:
-        """
-            Initialize the cart 
+        """ Initialize the cart 
         """
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
@@ -18,9 +18,35 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self, product: Product, quantity: int = 1, override_quantity: bool = False) -> None:
+        # Store current applied coupon
+        self.coupon_id = self.session.get('coupon_id')
+
+    def coupon(self) -> Coupon | None:
+        """Return a coupon object or None
         """
-            Add a product to the cart or update it's quantity
+        if self.coupon_id:
+            try:
+                return Coupon.objects.get(id=self.coupon_id)
+            except Coupon.DoesNotExist:
+                pass
+        return None
+    
+    def get_discount(self) -> Decimal:
+        """return the amount to be deducted from the total amount of cart items.
+
+            If a coupon has been applied, which is then stored in the current session.
+        """
+        if self.coupon:
+            return (self.coupon().discount / Decimal(100)) * self.get_total_price()
+        return Decimal(0)
+    
+    def get_total_price_after_discount(self) -> Decimal:
+        """Return total amount of items in cart after deducting discount
+        """
+        return self.get_total_price() - self.get_discount()
+
+    def add(self, product: Product, quantity: int = 1, override_quantity: bool = False) -> None:
+        """Add a product to the cart or update it's quantity
         """ 
         product_id: str = str(product.id)
         if product_id not in self.cart:
@@ -36,8 +62,7 @@ class Cart(object):
         self.session.modified = True
 
     def remove(self, product: Product) -> None:
-        """
-            Remove a product(s) from the cart.
+        """Remove a product(s) from the cart.
         """
         product_id: str = str(product.id)
         if product_id in self.cart:

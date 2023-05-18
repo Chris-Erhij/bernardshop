@@ -12,7 +12,7 @@ import requests
 import json
 
 # Create paystack instance.
-api_key: str = settings.PAYSTACK_SECRET_KEY
+api_key: str = settings.PAYSTACK_SK
 end_point: str = settings.PAYSTACK_ENDPOINT
 
 
@@ -21,46 +21,29 @@ def payment_process(request: HttpRequest) -> HttpResponse | HttpResponseRedirect
     order = get_object_or_404(Order, id=request.session.get('order_id', None))
 
     if request.method == 'POST':
-        success_url = request.build_absolute_uri(reverse('payment:pay_completed'))
         cancel_url = request.build_absolute_uri(reverse('payment:pay_canceled'))
 
-        
-
         # Additional metadata paystack endpoint don't accept naturally.
-        metadata: dict = json.dumps({'client_reference_id': order.id, 'cancel_url': cancel_url})
+        metadata: str = json.dumps({'order_id': order.id, 'cancel_url': cancel_url})
 
         # Paystack checkout session data.
         session_data: dict = {
-            'mode': 'payment',
-            'success_url': success_url,
+            'amount': order.get_total_cost(),
+            'email': order.email,
             'metadata': metadata,
-            'line_items': []
         }
-        # Populate session data line_Items.
-        for item in order.items.all():
-            session_data['line_items'].append({
-                'price_data': {
-                        'unit_amount': int(item.price * Decimal('100')),
-                        'currency': 'ghs',
-                'product_data': {
-                        'name': item.product.name,
-                                },
-                    },
-                'quantity': item.quantity,
-            })
-        headers: dict([str, str]) = {'Authorization': F"Bearer {api_key}"}
+       
+        headers: dict([str, any]) = {'Authorization': F"Bearer {api_key}", "Content-Type": "application/json"}
 
         # Api request to paystack server.
-        r = requests.post(end_point, headers=headers, data=session_data)
-        response = r.json()
+        response = requests.get(end_point, headers=headers, data=session_data)
 
-        if response['status'] == True:
-            try:
-                end_point_url = response['data']['authorization_url']
-                return redirect(end_point_url, code=303)
-            except Exception:
-                raise("Authorization error!")
-        return render(request, 'payment/pay_process.html', locals())
+        if response.status_code == 200:
+            response_data = response.json()
+            paystack_modal = response_data['data']['authorization_url']
+            return redirect(paystack_modal, code=303)
+        
+        raise ConnectionError("Unknown error occured, please try again!") from BaseException
     return render(request, 'payment/pay_process.html', locals())
 
 

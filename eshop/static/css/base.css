@@ -93,9 +93,13 @@ a.button, input[type="submit"] {
     border:0;
 }
 
+input.remove {
+    background: red;
+}
+
 a.button.light {
     color: #fff;
-    background: #04aa6d;
+    background: #5993bb;
 }
 
 .text-left {
@@ -407,3 +411,7 @@ form div.field {
     margin-top: 30px;
 }
 
+/* Remove from cart button */
+input.remove {
+    background: red;
+}

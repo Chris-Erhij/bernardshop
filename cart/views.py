@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from eshop.models import Product
 from .forms import CartAddProductForm
+from coupon.forms import CouponApplyForm
 from .cart import Cart
 from django.views.decorators.http import require_POST
 from django.http import (
-    HttpRequest, HttpResponseRedirect, HttpResponse, HttpResponsePermanentRedirect
+    HttpRequest, HttpResponseRedirect, HttpResponse,
 )
 from django import forms
 
@@ -36,4 +37,5 @@ def cart_detail(request: HttpRequest) -> HttpResponse:
         item['update_quantity_form'] = CartAddProductForm(initial={
             'quantity': item['quantity'],
             'override': True})
-    return render(request, 'cart/detail.html', {'cart': cart})
+    coupon_apply_form = CouponApplyForm()
+    return render(request, 'cart/detail.html', {'cart': cart, 'coupon_apply_form': coupon_apply_form})
