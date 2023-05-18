@@ -1,12 +1,13 @@
 from django.db import models
 from django.db.models import (
     Model, CharField, EmailField, BooleanField, DecimalField, DateTimeField, 
-    PositiveIntegerField, ForeignKey, Index,
+    PositiveIntegerField, ForeignKey, Index, IntegerField
 )
 from eshop.models import Product
 from typing import Type
-import secrets
-from .paystack import Paystack
+from django.core.validators import MinValueValidator, MaxValueValidator
+from decimal import Decimal
+from coupon.models import Coupon
 
 
 class Order(Model):
@@ -21,6 +22,12 @@ class Order(Model):
     ref: CharField = models.CharField(max_length=200)
     paid: BooleanField = models.BooleanField(default=False)
 
+    coupon: ForeignKey = models.ForeignKey(Coupon, null=True, blank=True, related_name='orders',
+                                           on_delete=models.SET_NULL)
+    discount: IntegerField = models.IntegerField(default=0, validators=[MinValueValidator(0), 
+                                                                        MaxValueValidator(100)])
+    
+
     class Meta:
         ordering: list([str]) = ['-created']
         indexes: list([Type]) = [
@@ -30,30 +37,22 @@ class Order(Model):
     def __str__(self) -> str:
         return F"Order {self.id}"
     
-    def get_total_cost(self) -> int:
+    def get_total_before_discount(self) -> int:
+        """Return total cost of an order before applying discount
+        """
         return sum(item.get_cost() for item in self.items.all())
     
-    def verify_payment(self):
-        paystack = Paystack()
-        status, result = paystack.verify_payment(self.ref, self.get_total_cost())
-
-        if status and result['amount'] / 100 == self.get_total_cost():
-            self.paid = True
-            self.save()
-        if self.paid:
-            return True
-        return False
-
-    def save(self, *args, **kwargs):
-        """Saves order reference IDs
+    def get_discount(self) -> Decimal:
+        """Return the discount stored for an order if any exit
         """
-        while not self.ref:
-            ref = secrets.token_urlsafe(50)
-            obj_with_sim_ref = Order.objects.filter(ref=ref)
-            
-            if not obj_with_sim_ref:
-                self.ref = ref
-        super().save(*args, **kwargs)
+        if self.discount:
+            return (self.get_total_before_discount() * (self.discount / Decimal(100)))
+        return Decimal(0)
+    
+    def get_total_cost(self) -> Decimal:
+        """Return total cost of an order after applying discount
+        """
+        return self.get_total_before_discount() - self.get_discount()
     
 
 class OrderItem(Model):
