@@ -11,13 +11,6 @@ body {
     background-color: #5993bb;
     overflow: hidden;
 }
-
-/* logo */
-.logo {
-    color: white;
-    font-family: math;
-    padding-left: 40px;
-}
   
   /* Style the links inside the navigation bar */
   .topnav a {
@@ -29,6 +22,12 @@ body {
     text-decoration: none;
     font-size: 17px;
 }
+
+.logo {
+    float: left;
+}
+
+a {}
   
   /* Change the color of links on hover */
   .topnav a:hover {
@@ -198,14 +197,6 @@ ul.errorlist {
     overflow:auto;
 }
 
-#header .logo {
-    font-family: 'Ubuntu', sans-serif;
-    float:left;
-    color:#333;
-    font-size:22px;
-    margin-right:10%;
-}
-
 #subheader .cart {
     float:right;
     padding-top:4px;
@@ -267,7 +258,7 @@ ul.errorlist {
 }
 
 .product-detail {
-    text-align:justify;
+    text-align: center;
 }
 
 .product-detail .price {
@@ -278,8 +269,9 @@ ul.errorlist {
 
 .product-detail img {
     width:40%;
-    float:left;
+    float: inherit;
     padding:0 20px 20px 0;
+    margin-top: 30px;
 }
 
 .product-detail h1 {
@@ -412,6 +404,6 @@ form div.field {
 }
 
 /* Remove from cart button */
-input.remove {
+input .remove {
     background: red;
 }

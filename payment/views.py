@@ -12,17 +12,21 @@ import stripe
 
 
 # Stripe API key
-stripe.api_key = settings.STRIPE_SK
-stripe.api_version = settings.STRIPE_API_VERSION
+stripe.api_key: str = settings.STRIPE_SK
+stripe.api_version: str = settings.STRIPE_API_VERSION
 
 
 def payment_process(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
+    """Redirect to stripe payment process modal"""
+
+
     # Retrieve the order ID set in django session (payment init I.e. "order_create view").
-    order = get_object_or_404(Order, id=request.session.get('order_id', None))
+    order: Order = get_object_or_404(Order, id=request.session.get('order_id', None))
 
     if request.method == 'POST':
-        cancel_url = request.build_absolute_uri(reverse('payment:pay_canceled'))
-        callback_url = request.build_absolute_uri(reverse('payment:pay_completed'))
+        # Callback URLs
+        cancel_url: str = request.build_absolute_uri(reverse('payment:pay_canceled'))
+        callback_url: str = request.build_absolute_uri(reverse('payment:pay_completed'))
 
         # Checkout session data.
         metadata: dict = {
@@ -47,7 +51,12 @@ def payment_process(request: HttpRequest) -> HttpResponse | HttpResponseRedirect
 
         # Create checkout session.
         session = stripe.checkout.Session.create(**metadata)
-        return redirect(session.url, code=303)
+        if session:
+            try:
+                return redirect(session.url, code=303)
+            except:
+                raise stripe.max_network_retries
+        return render(request, 'payment/pay_process.html', locals())
     return render(request, 'payment/pay_process.html', locals())
 
 

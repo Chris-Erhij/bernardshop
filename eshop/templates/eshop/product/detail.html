@@ -20,10 +20,8 @@
             {{ cart_product_form }}
             {% csrf_token %}
             <input type="submit" value="Add to cart">
+            <input type="submit" value="Buy now">
         </form>
-        <p>
-            <a href="{% url 'orders:order_create' %}" class="button"> buy now </a>
-        </p>>
         {{ product.description|linebreaks }}
     </div>
 {% endblock %}
