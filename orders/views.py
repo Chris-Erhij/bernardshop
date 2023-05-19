@@ -12,8 +12,18 @@ def order_create(request: HttpRequest,) -> HttpResponse | HttpResponseRedirect:
     cart = Cart(request)
     if request.method == 'POST':
         form: (forms.ModelForm | OrderCreateForm) = OrderCreateForm(request.POST)
+
         if form.is_valid():
-            order = form.save()
+            # Save order without persisting to database
+            order = form.save(commit=False)
+
+            # Store related coupon and discount to cart
+            if cart.coupon:
+                order.coupon = cart.coupon()
+                order.discount = cart.coupon().discount
+            order.save()
+
+            # Create an order item for each product in the cart
             for item in cart:
                 OrderItem.objects.create(order=order,
                                          product=item['product'],
