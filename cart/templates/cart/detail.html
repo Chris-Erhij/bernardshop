@@ -42,8 +42,8 @@
                           {% csrf_token %}
                       </form>
                   </td>
-                  <td class="num">₵{{ item.price }}</td>  
-                  <td class="num">₵{{ item.total_price }}</td>
+                  <td class="num">${{ item.price }}</td>  
+                  <td class="num">${{ item.total_price }}</td>
               </tr>
           {% endwith %}
         {% endfor %}
@@ -51,7 +51,7 @@
             <tr class="subtotal">
                 <td>Subtotal</td>
                 <td colspan="4"></td>
-                <td class="num">₵{{ cart.get_total_price|floatformat:2 }}</td>
+                <td class="num">${{ cart.get_total_price|floatformat:2 }}</td>
             </tr>
             <tr>
                 <td>
@@ -60,14 +60,14 @@
                 </td>
                 <td colspan="4"></td>
                 <td class="num neg">
-                    - ₵{{ cart.get_discount|floatformat:2 }}
+                    - ${{ cart.get_discount|floatformat:2 }}
                 </td>
             </tr>
         {% endif %}
         <tr class="total">s
             <td>Total</td>
             <td colspan="4"></td>
-            <td class="num">₵{{ cart.get_total_price_after_discount|floatformat:2 }}</td>
+            <td class="num">${{ cart.get_total_price_after_discount|floatformat:2 }}</td>
         </tr>
       </tbody>
   </table>

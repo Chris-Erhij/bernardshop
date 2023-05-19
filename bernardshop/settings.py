@@ -143,15 +143,14 @@ CART_SESSION_ID = 'cart'
 # Renders mail message to console.
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Paystack API keys from (os) & end-point.
-PAYSTACK_PUBLIC_KEY: str = os.environ.get('PS_PUBLIC')
-PAYSTACK_SECRET_KEY: str = os.environ.get('PS_SECRET')
+# Paystack test API keys
 PAYSTACK_ENDPOINT: str = "https://api.paystack.co/transaction/initialize"
 PAYSTACK_SK: str = "sk_test_e3efbe5c953602af5b7e544058d1d4761201a98d"
 PAYSTACK_PK: str = "pk_test_33c589c93d426ead744a42658a41afdfb7183fee"
 
-# Stripe API keys
+# Stripe test API keys
 STRIPE_PK: str = "pk_test_51N9R3mKKp3NCphne7N8SYHF987nIgoSziytgn" \
     "n5kAH7fVsOh5GFVEG5Ph3FQ9G1Ptuo2hs1VjdKGkGpK0ULIH8oD00x0RSyj0f"
 STRIPE_SK: str = "sk_test_51N9R3mKKp3NCphneOWsyoT3V8gkPof5pNdcyN7mt" \
     "wVZKueSi6TVGdw0xQZRCNtskbK2QNA2g7tPltDDfvQdZSIVQ00zDqVIEhT"
+STRIPE_API_VERSION: str = "2022-11-15"

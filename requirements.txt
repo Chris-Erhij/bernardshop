@@ -4,3 +4,4 @@ flower==1.2.0
 celery==5.2.7
 django-rest-paystack==2.2.2
 requests==2.28.2
+stripe==5.4.0
