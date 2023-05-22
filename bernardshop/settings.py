@@ -154,3 +154,6 @@ STRIPE_PK: str = "pk_test_51N9R3mKKp3NCphne7N8SYHF987nIgoSziytgn" \
 STRIPE_SK: str = "sk_test_51N9R3mKKp3NCphneOWsyoT3V8gkPof5pNdcyN7mt" \
     "wVZKueSi6TVGdw0xQZRCNtskbK2QNA2g7tPltDDfvQdZSIVQ00zDqVIEhT"
 STRIPE_API_VERSION: str = "2022-11-15"
+STRIPE_WEBHOOK_SECRET: str = "whsec_ce6416a64caaaae5460b9182ee7637eb27e" \
+    "de9f17910359b4fa2d8b44820517a"
+    
