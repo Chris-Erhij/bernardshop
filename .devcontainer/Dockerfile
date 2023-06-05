@@ -15,4 +15,4 @@ WORKDIR /bernardshop
 COPY . /bernardshop
 
 # During debugging, this entry point will be overridden
-CMD ['python', 'manage.py runserver']
+CMD ["python", "manage.py runserver"]
