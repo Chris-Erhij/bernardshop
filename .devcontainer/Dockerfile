@@ -13,6 +13,3 @@ RUN python -m pip install --no-cache-dir install --upgrade pip && \
 
 WORKDIR /bernardshop
 COPY . /bernardshop
-
-# During debugging, this entry point will be overridden
-CMD ["python", "manage.py runserver"]
