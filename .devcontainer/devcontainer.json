@@ -6,10 +6,12 @@
 	"build": {
         // Path is relataive to the devcontainer.json file.
         "dockerfile": "Dockerfile"
-	}
+	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/rabbitmq-asdf:1": {}
+	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
