@@ -1,0 +1,6 @@
+# Ignored dir
+/__pycache__
+/venv
+
+# ignored files
+*.pyc

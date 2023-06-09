@@ -1,0 +1,5 @@
+celery
+Django
+flower
+pillow
+stripe
